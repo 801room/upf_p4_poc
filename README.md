@@ -38,7 +38,7 @@ ps:maybe need to set proxy  getting package,like me
 export GO111MODULE=on
 export GOPROXY=https://goproxy.cn
 ```
-docker git python2.7 make ...
+docker docker-compose git python2.7 make ...
 
 #Getting Started
 1.Download and Prepare the environment.(one time)
@@ -63,7 +63,8 @@ make start
 <br>Start cp-upf
 <br>Note：replace param as your environment.
 ```
-build/cp-upf --addr ${STRATUMIP}:${STRATUMPORT} -bin bmv2.json -p4info p4info.txt -device-id 1 -n4addr {N4IP}:{N4PORT}
+cd ./build
+./cp-upf --addr ${STRATUMIP}:${STRATUMPORT} -bin bmv2.json -p4info p4info.txt -device-id 1 -n4addr {N4IP}:{N4PORT}
 ```
 
 4.Test

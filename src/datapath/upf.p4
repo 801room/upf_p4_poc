@@ -875,7 +875,7 @@ control IngressPipeImpl (inout parsed_headers_t    hdr,
 
             //gtpu process
             if(hdr.gtpu.isValid()){
-                upf_f_teid_ueip_filter_table.apply()
+                upf_f_teid_ueip_filter_table.apply();
                 local_metadata.upf.direction = UPF_DIR_UPLINK;
                 upf_pdr_header_rm_table.apply();
                 upf_pdr_getfar_table.apply();

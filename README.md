@@ -9,7 +9,7 @@ PFCP implementation in Golang.This project use go-pfcp to decode/code pfcp messa
 Go client for P4Runtime.This project use  p4runtime-go-client to connect stratum_bmv2(as swithos and pipeline instance),config pipeline and insert table entry.
 3) **scapy** https://github.com/secdev/scapy <br>
 Scapy is a powerful Python-based interactive packet manipulation program and library.
-This project use it to construct and send PFCP request messages.Also use it to send user plane uplink and downlink data packets for function test.
+This project use it to construct and send PFCP request messages.I also use it to send user plane uplink and downlink data packets for function test.
 4) **ngsdn-tutorial** https://github.com/opennetworkinglab/ngsdn-tutorial <br>
 Tutorial for Next-generation SDN (NG-SDN).It contains a set of containers, such as p4c, mininet(include stratum-bmv2), onos. Use it as a p4 compilation and test runtime environment.
 
@@ -30,9 +30,9 @@ GTP-U header.
 User plane protocol stack for a PDU session
 ![gtpu_pdu_session](./doc/gtpu_pdu_session.jpg)
 
-##Requirements
+## Requirements
 OS:Ubuntu 18.04 <br>
-Go (>= 1.13.3) <br>
+Go (>= 1.14) <br>
 ps:maybe need to set proxy  getting package,like me 
 ```
 export GO111MODULE=on
@@ -40,7 +40,7 @@ export GOPROXY=https://goproxy.cn
 ```
 docker docker-compose git python2.7 make ...
 
-#Getting Started
+## Getting Started
 1.Download and Prepare the environment.(one time)
 Note：It will take some time to download docker images.
 ```
@@ -48,14 +48,14 @@ git clone
 make deps-env
 ```
 2.Build
-Build result in "build" folder.
+The result in "build" folder.
 ```
 make build
 ```
 3.Runing
 The components of poc
 ![components](./doc/components.jpg)
-Start startum environment,include mininet.see aslo  [ngsdn-tutorial](https://github.com/opennetworkinglab/ngsdn-tutorial) .
+Start stratum environment,include mininet.see aslo  [ngsdn-tutorial](https://github.com/opennetworkinglab/ngsdn-tutorial) .
 ```
 cd ./ngsdn-tutorial
 make start
@@ -68,14 +68,16 @@ cd ./build
 ```
 
 4.Test
-Mininet config ip by hands.
+Mininet config ip and downlink route by hands.
 ```
 cd ./ngsdn-tutorial
 make mn-cli
 mininet> h1a ip addr add 193.168.1.2/24 dev h1a-eth0
 mininet> h1b ip addr add 193.168.1.3/24 dev h1b-eth0
+mininet> h1b ip route add  10.10.10.2/32 via 193.168.1.2
 ```
 Send PFCP request to create pdu session.The cp-upf receive pfcp messages will translate to some p4table operations.
+Note:need to modify ip in the scripts based on run environment.
 ```
 ./test_script/pfcp_request.py
 ```
@@ -92,10 +94,10 @@ util/mn-cmd h1b python /mininet/send_udp_downlink.py
 util/mn-cmd h1a tcpdump -i h1a-eth0 -w /tmp/downlink-ue.pcap
 util/mn-cmd h1b tcpdump -i h1b-eth0 -w /tmp/downlink-dn.pcap
 ```
-# Planning
+## Planning
 Add more counter and connect to onos.
-<br>Add to cpu and dpi process.
-<br>Also I have a plan to coding upf based on ebpf(xdp).that will be a anthor story,but all of them will be one story.
+<br>Add packout to cpu and dpi.
+<br>Also I have a plan to coding upf poc based on ebpf(xdp).that will be another story,but all of them will be one story.
 
 
 
